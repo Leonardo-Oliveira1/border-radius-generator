@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,30 +9,62 @@
 </head>
 
 <style>
-    #preview{
+    #preview {
         width: 300px;
         height: 300px;
         background-color: black;
+        margin: 30px;
+    }
+
+    #top {
+        position: absolute;
+        z-index: 9;
+        border: 1px solid #d3d3d3;
+        
+        background-color: #f1f1f1;
+        width: 15px;
+        height: 15px;
+
+        text-align: center;
     }
 </style>
 
 <body>
-    <div id="preview"></div>
+    <div id="preview">
+        <span id="top"></span>
+        <span id="left"></span>
+        <span id="right"></span>
+        <span id="bottom"></span>
+    </div>
 
     <label>Esquerda superior</label>
-    <input type="number" oninput="test()" id="topleft" min="0"><br>
+    <input type="number" oninput="getValues()" id="topleft" min="0"><br>
     <label>Esquerda inferior</label>
-    <input type="number" oninput="test()" id="bottomleft" min="0"><br>
+    <input type="number" oninput="getValues()" id="bottomleft" min="0"><br>
     <label>Direita superior</label>
-    <input type="number" oninput="test()" id="topright" min="0"><br>
+    <input type="number" oninput="getValues()" id="topright" min="0"><br>
     <label>Direita inferior</label>
-    <input type="number" oninput="test()" id="leftright" min="0"><br>
+    <input type="number" oninput="getValues()" id="leftright" min="0"><br>
+    
+    <br>
+    <label>Width</label>
+    <input type="number" oninput="getSizes()" id="width" value="300" min="0"><br>
+    <label>Height</label>
+    <input type="number" oninput="getSizes()" id="height" value="300" min="0"><br>
 
-    <p>border-radius: <span id="result"></span></p>
+
+    <div id="allresult">
+        <p id="width-all-result">width: <span id="width-result">300px</span>;</p>
+        <p id="height-all-result">height: <span id="heigt-result">300px</span>;</p>
+        <p id="border-radius-all-result">border-radius: <span id="border-radius-result">0px 0px 0px 0px</span>;</p>
+    </div>
+    <button onclick="copy()">copy</button>
+
+    
 </body>
 
-<script> 
-    function test(){
+<script>
+    function getValues() {
         const topleft = Number(document.getElementById("topleft").value);
         const topright = Number(document.getElementById("topright").value);
         const bottomleft = Number(document.getElementById("bottomleft").value);
@@ -45,10 +78,31 @@
         document.getElementById("preview").style.borderBottomRightRadius = `${bottomright}px`;
         document.getElementById("preview").style.borderBottomLeftRadius = `${bottomleft}px`;
 
-        document.getElementById("result").innerHTML = `${topleft}px ${topright}px ${bottomright}px ${bottomright}px`
+        document.getElementById("border-radius-result").innerHTML = `${topleft}px ${topright}px ${bottomright}px ${bottomleft}px`
     }
-    
+
+    function getSizes() {
+        const width = Number(document.getElementById("width").value);
+        const height = Number(document.getElementById("height").value);
+
+        const preview = document.getElementById("preview")
+
+        document.getElementById("preview").style.width = `${width}px`;
+        document.getElementById("preview").style.height = `${height}px`;
+
+        document.getElementById("width-result").innerHTML = `${width}px`
+        document.getElementById("height-result").innerHTML = `${height}px`
+    }
+
+
+    function copy() {
+        var copyText = document.getElementById("allresult").textContent;
+
+        navigator.clipboard.writeText(copyText);
+
+    }
 </script>
 
+<script src="draggable.js"></script>
 
 </html>
